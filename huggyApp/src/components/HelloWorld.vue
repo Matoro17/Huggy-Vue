@@ -1,83 +1,26 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
+    <h2>Comente</h2>
+    <div class="form-todo" form-group>
+      <p>
+        <input placeholder="Nome" type="text" name="author" class="form-control" v-model="name">
+
+      </p>
+      <p>
+        <input placeholder="Comentário"  name="message" class="form-control" v-model="message">
+
+      </p>
+      <button v-on:click="addComment" type="submit"  class="btn btn-primary">Comentar</button>
+    </div>
+    <h2>Comentários</h2>
     <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
+      <li v-for="comment in comments" :key="comment.id">
+        <div container>
+          <p>{{comment.name}}</p>
+          <p>{{comment.message}}</p>
+          <a title="Excluir" v-on:click.prevent="removeComment(comment.id)">Excluir</a>
+        </div>
       </li>
     </ul>
   </div>
@@ -88,7 +31,25 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Blog da Maciota',
+      comments: [
+        {name: 'johson', message: 'lalala'}
+      ],
+      name: '',
+      message: ''
+    }
+  },
+  methods: {
+    addComment () {
+      if (this.name.trim() === '' || this.message.trim() === '') {
+        return
+      }
+      this.comments.push({name: this.name, message: this.message})
+      this.name = ''
+      this.message = ''
+    },
+    removeComment (index) {
+      this.comments.splice(index, 1)
     }
   }
 }
