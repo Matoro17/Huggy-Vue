@@ -1,6 +1,10 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <div containter-fluid>
+      <card></card><card></card><card></card>
+    </div>
+    <card></card>
     <h2>Comente</h2>
     <div class="form-todo" form-group>
       <p>
@@ -23,15 +27,22 @@
         </div>
       </li>
     </ul>
+    <div id="links-fixos">
+      <a href="link-para-pagina">
+      <button class="btn btn-primary rounded"><font-awesome-icon :icon="['fas', 'plus']" /></button>
+    </a>
+    </div>
   </div>
 </template>
 
 <script>
+import card from './card.vue'
 export default {
+  components: { card },
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Blog da Maciota',
+      msg: 'HuggyApp',
       comments: [
         {name: 'johson', message: 'lalala'}
       ],
@@ -70,5 +81,18 @@ li {
 }
 a {
   color: #42b983;
+}
+#links-fixos{
+  /*você pode alterar largura usando width*/
+  padding:5px;
+  background:rgba(0,0,0,0);
+  position:fixed;
+  top:85%;/*altura da classe*/
+  left:1%;
+}
+.rounded{
+  width: 5rem;
+  height: 5rem;
+  font-size: 2.5rem;
 }
 </style>

@@ -13,6 +13,11 @@
         "lite-server": "2.5.4"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.1",
+        "@fortawesome/fontawesome-svg-core": "^1.2.32",
+        "@fortawesome/free-brands-svg-icons": "^5.15.1",
+        "@fortawesome/free-solid-svg-icons": "^5.15.1",
+        "@fortawesome/vue-fontawesome": "^2.0.0",
         "vue": "^2.6.12"
     }
 }
