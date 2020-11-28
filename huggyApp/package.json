@@ -21,6 +21,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.0",
     "axios": "^0.21.0",
     "vue": "^2.5.2",
+    "vue-js-modal": "^2.0.0-rc.6",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
