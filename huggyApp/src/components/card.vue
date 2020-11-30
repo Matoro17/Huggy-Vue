@@ -3,18 +3,18 @@
     <div class="head-card">
         <div class="row">
             <div class="col-sm-8">
-                <h6 class="card-title">{{atalho.name}}</h6>
+                <h6 class="card-title titulo" style="margin-top: 0.4rem">{{atalho.name}}</h6>
             </div>
             <div class="col-sm" >
                 <p style="float: right">{{atalho.id}}</p>
             </div>
         </div>
     </div>
+    <p class="card-text">{{atalho.file}}</p>
     <div class="card-body">
         <div class="row">
             <div class="col">
                 <p class="card-text">{{atalho.text}}</p>
-                <p class="card-text">{{atalho.file}}</p>
             </div>
         </div>
         <div class="row">
@@ -44,9 +44,11 @@ export default {
     width: 18rem;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    box-shadow: 2px 2px rgba(0,0,0,0.2);
 }
 .head-card{
     color: white;
+    vertical-align: middle;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     padding-left: 0.7rem;
@@ -56,5 +58,7 @@ export default {
     background: rgb(135,0,69,0.5);
     background: linear-gradient(90deg, rgba(135,0,69,0.75) 0%, rgba(9,15,121,0.75) 47%, rgba(0,134,255,0.75) 100%);
 }
-
+.titulo{
+    font-weight: 700;
+}
 </style>
