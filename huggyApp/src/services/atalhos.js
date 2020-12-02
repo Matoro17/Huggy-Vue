@@ -21,21 +21,20 @@ export default {
         }else{
             publico = false
         }
-        console.log(atalho)
-        console.log(publico)
         return http.post('',{
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + acessToken
-            },
-            body: {
-                "name": atalho.name,
-                "key":  atalho.key,
-                "file": atalho.file,
-                "text": atalho.text,
-                "public": publico
+                    "name": atalho.name,
+                    "key":  atalho.key,
+                    "file": atalho.file,
+                    "text": atalho.text,
+                    "public": publico
+            },{
+                headers: headers,
             }
+        )
+    },
+    deletar: (atalho) =>{
+        return http.delete("/"+atalho.id,{
+            headers: headers
         })
     }
 }
