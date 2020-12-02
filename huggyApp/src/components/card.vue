@@ -60,6 +60,7 @@ export default {
                     atalhos.deletar(this.atalho).then(resposta => {
                         console.log('Vc conseguiu deletar!')
                         this.$swal.fire('Deletado com Sucesso!')
+                        this.$parent.listar()
                     }).catch(error => {
                         this.errorMessage = error.message;
                         console.error('There was an error!', error);

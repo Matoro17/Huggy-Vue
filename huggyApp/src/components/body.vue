@@ -150,9 +150,16 @@ export default {
       });
     
     },
-    showEditModal (atalho) {
+    showEditModal (short) {
       this.$refs['card-edit'].show()
-      this.atalhoEdit = atalho
+      this.atalhoEdit = {
+            "id": short.id,
+            "name": short.name,
+            "key":  short.key,
+            "file": short.file,
+            "text": short.text,
+            "public": short.public
+        }
     },
     editarAtalho () {
       atalhos.editar(this.atalhoEdit).then(resp => {
