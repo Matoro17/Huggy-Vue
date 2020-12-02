@@ -1,7 +1,15 @@
 <template>
   <div class="hello">
     <nav class="navbar navbar-dark bg-dark">
-      <span class="navbar-brand mb-0 h1">ShortHuggy</span>
+      <div class="row">
+        <div class="col-8">
+          <span class="navbar-brand mb-0 h1">ShortHuggy</span>
+        </div>
+        <!-- 
+        <div class="col-2 navbar-brand mb-0 h4">
+          Total de Atalhos: {{atalhos.length}}
+        </div> -->
+      </div>
     </nav>
     <ul id="example-1">
       <li v-for="atalho in atalhos" :key="atalho.index">
@@ -9,7 +17,7 @@
       </li>
     </ul>
     <div id="links-fixos">
-      <button v-b-modal.meu-modal class="btn btn-primary rounded" id="show-modal" ><font-awesome-icon :icon="['fas', 'plus']" /></button>
+      <button title="Adicionar Atalho" v-b-modal.meu-modal class="btn btn-primary rounded" id="show-modal" ><font-awesome-icon :icon="['fas', 'plus']" /></button>
     </div>
     <b-modal ref="my-modal" id="meu-modal" hide-footer>
       <template #modal-title>
@@ -49,6 +57,44 @@
         <button type="submit" class="btn btn-primary" >Adicionar</button>
       </form>
     </b-modal>
+    <b-modal ref="card-edit" id="card-edit-modal" hide-footer>
+      <template #modal-title>
+        <h2>Editar Atalho</h2>
+      </template>
+      <form @submit.prevent="editarAtalho" class="form-todo" form-group>
+        {{alert}}
+        <ul>
+          <li>
+            <p>
+              <label>Nome</label>
+              <input v-model="atalhoEdit.name" placeholder="Nome" type="text" name="author" class="form-control">
+            </p>
+          </li>
+          <li>
+            <p>
+              <label>Key (Chave)</label>
+              <input v-model="atalhoEdit.key" placeholder="Key"  name="key" class="form-control">
+            </p>
+          </li>
+        </ul>
+        <ul>
+            <p>
+              <label>Arquivo</label>
+              <input v-model="atalhoEdit.file" placeholder="File"  name="file" class="form-control">
+            </p>
+            <p>
+              <label>Texto</label>
+              <input v-model="atalhoEdit.text" placeholder="Text"  name="text" class="form-control">
+            </p>
+            <label>Public</label>
+            <select id="public" v-model="atalhoEdit.public" name="public" >
+              <option value=true>Sim</option>
+              <option value=false>Não</option>
+            </select>
+        </ul>
+        <button type="submit" class="btn btn-primary" >Enviar</button>
+      </form>
+    </b-modal>
   </div>
 </template>
 
@@ -64,12 +110,17 @@ export default {
     this.listar()
   },
   components: { card },
-  
-    Modalme: 'HelloWorld',
   data () {
     return {
       atalhos: [],
       atalho:{
+        name: '',
+        key: '',
+        file: '',
+        text: '',
+        public: Boolean
+      },
+      atalhoEdit:{
         name: '',
         key: '',
         file: '',
@@ -90,12 +141,26 @@ export default {
       atalhos.adicionar(this.atalho).then(resp => {
         this.atalho = {}
         this.hideModal()
+        this.$swal.fire('Salvo com sucesso')
         this.listar()
       }).catch(error => {
         this.errorMessage = error.message;
+        this.$swal.fire('Houve um erro!')
         console.error("There was an error!", error);
       });
     
+    },
+    showEditModal (atalho) {
+      this.$refs['card-edit'].show()
+      this.atalhoEdit = atalho
+    },
+    editarAtalho () {
+      atalhos.editar(this.atalhoEdit).then(resp => {
+        this.$refs['card-edit'].hide()
+        this.atalhoEdit = {}
+        this.$swal.fire('Editado com sucesso')
+        this.listar()
+      })
     }
   }
 }

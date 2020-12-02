@@ -16,9 +16,9 @@ export default {
 
     adicionar: (atalho) => {
         var publico;
-        if(atalho.public === "true"){
-            publico = true;
-        }else{
+        if (atalho.public === "true"){
+            publico = true
+        } else{
             publico = false
         }
         return http.post('',{
@@ -34,6 +34,23 @@ export default {
     },
     deletar: (atalho) =>{
         return http.delete("/"+atalho.id,{
+            headers: headers
+        })
+    },
+    editar: (atalho) => {
+        var publico;
+        if (atalho.public === "true"){
+            publico = true
+        } else{
+            publico = false
+        }
+        return http.put("/"+atalho.id,{
+            "name": atalho.name,
+            "key":  atalho.key,
+            "file": atalho.file,
+            "text": atalho.text,
+            "public": publico
+        },{
             headers: headers
         })
     }
