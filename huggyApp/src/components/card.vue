@@ -2,11 +2,11 @@
 <div id="cartao" class="card">
     <div class="head-card">
         <div class="row align-items-center">
-            <div class="col-8">
-                <h6 class="card-title titulo" style="margin-top: 0.4rem">{{atalho.name}}</h6>
+            <div class="col-9">
+                <h6 title="Name" class="card-title titulo" style="margin-top: 0.4rem">{{atalho.name | truncate(20, '...') }}</h6>
             </div>
-            <div class="col-4" style="text-align:right">
-                <p style="float: right">{{atalho.id}}</p>
+            <div class="col-3" style="text-align:right">
+                <p title="ID" style="float: right">{{atalho.id}}</p>
             </div>
         </div>
     </div>
@@ -25,18 +25,18 @@
                 </div>
             </div>
             <div class="row align-items-end">
-                <div class="col-sm-3" style="text-align:left" title="Public">
+                <div class="col-3" style="text-align:left" title="Public">
                     <font-awesome-icon v-if="atalho.public" :icon="['fas', 'eye']" />
                     <font-awesome-icon v-if="!atalho.public" :icon="['fas', 'eye-slash']" />
                 </div>
-                <div class="col-sm-9" style="text-align:right">
+                <div class="col-9" style="text-align:right">
                     <a title="Arquivo" v-on:click="abrirLink" class="btn btn-primary"><font-awesome-icon :icon="['fas', 'link']" /></a>
-                    <a title="Editar Atalho" href="#" class="btn btn-primary"><font-awesome-icon :icon="['fas', 'edit']" /></a>
+                    <a title="Editar Atalho" v-on:click="showEdit" class="btn btn-primary"><font-awesome-icon :icon="['fas', 'edit']" /></a>
                     <a title="Deletar Atalho" v-on:click="excluirAtalho" class="btn btn-primary"><font-awesome-icon :icon="['fas', 'trash']" /></a>
                 </div>
             </div>
         
-  </div>
+    </div>
 </div>
 </template>
 
@@ -45,24 +45,24 @@ import atalhos from './../services/atalhos'
 export default {
     props: ['atalho'],
     methods: {
-        editarAtalho () {
-            
+        showEdit () {
+            this.$parent.showEditModal(this.atalho)
         },
-        excluirAtalho(){
+        excluirAtalho () {
             this.$swal({
-                title: 'Você tem certeza que gostaria de deletar o Atalho: '+this.atalho.id,
+                title: 'Você tem certeza que gostaria de deletar o Atalho: ' + this.atalho.id,
                 showDenyButton: true,
                 confirmButtonText: 'Sim',
                 denyButtonText: 'Não'
             }).then((result) => {
-                if(result.isConfirmed){
-                    console.log("Vc mandou deletar "+this.atalho.id)
-                    atalhos.deletar(this.atalho).then( resposta => {
-                        console.log("Vc conseguiu deletar!")
-                        this.$swal.fire("Deletado com Sucesso!")
+                if (result.isConfirmed) {
+                    console.log('Vc mandou deletar ' + this.atalho.id)
+                    atalhos.deletar(this.atalho).then(resposta => {
+                        console.log('Vc conseguiu deletar!')
+                        this.$swal.fire('Deletado com Sucesso!')
                     }).catch(error => {
                         this.errorMessage = error.message;
-                        console.error("There was an error!", error);
+                        console.error('There was an error!', error);
                     });
                     this.$parent.listar()
                 }                
