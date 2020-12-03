@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  methods:{
+    changeback(color) {
+      document.querySelector('html').style.backgroundColor = color
+    }
+  }
 }
 </script>
 
@@ -17,5 +22,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+html{
+  background-color: #C5D9E8;
 }
 </style>

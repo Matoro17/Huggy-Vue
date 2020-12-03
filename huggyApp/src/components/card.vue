@@ -1,3 +1,8 @@
+<!-- 
+    Componente "card" onde cada unidade de atalho é renderizado
+    com os métodos para enviar para a classe superior para abrir um modal para editá-lo e um método para excluir o mesmo
+    ambos que em seguida utilizam o método para re-fazer a listagem dos atalhos
+-->
 <template>
 <div id="cartao" class="card">
     <div class="head-card">
@@ -10,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" v-bind:class="[this.$parent.darkMode ? 'card-dark':'']">
             <div class="row align-items-center">
                 <div class="col texto">
                     <div class="subtitle row">
@@ -32,7 +37,7 @@
                 <div class="col-9" style="text-align:right">
                     <a title="Arquivo" v-on:click="abrirLink" class="btn btn-primary"><font-awesome-icon :icon="['fas', 'link']" /></a>
                     <a title="Editar Atalho" v-on:click="showEdit" class="btn btn-primary"><font-awesome-icon :icon="['fas', 'edit']" /></a>
-                    <a title="Deletar Atalho" v-on:click="excluirAtalho" class="btn btn-primary"><font-awesome-icon :icon="['fas', 'trash']" /></a>
+                    <a title="Deletar Atalho" v-on:click="excluirAtalho" class="btn btn-danger"><font-awesome-icon :icon="['fas', 'trash']" /></a>
                 </div>
             </div>
         
@@ -86,6 +91,13 @@ export default {
 </script>
 
 <style scoped>
+.card{
+    border: 0px;
+}
+.card-dark{
+    background-color: #171E29;
+    color: white;
+}
 #cartao {
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
