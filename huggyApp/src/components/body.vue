@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <div class="topo"></div>
+    <div class="topo">{{msg}}</div>
     <nav v-bind:class="['navbar', darkMode ? 'navbar-dark' : 'navbar-light', darkMode ? 'bg-dark' : '']">
         <div class="mt-lg-0">
           <span class="navbar-brand mb-0 h1" id="titulo">ShortHuggy</span>
