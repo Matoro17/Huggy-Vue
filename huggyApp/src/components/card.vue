@@ -8,7 +8,7 @@
     <div class="head-card">
         <div class="row align-items-center">
             <div class="col-9">
-                <h6 title="Name" class="card-title titulo" style="margin-top: 0.4rem">{{atalho.name | truncate(20, '...') }}</h6>
+                <h6 name="titulo" title="Name" class="card-title titulo" style="margin-top: 0.4rem">{{atalho.name | truncate(20, '...') }}</h6>
             </div>
             <div class="col-3" style="text-align:right">
                 <p title="ID" style="float: right">{{atalho.id}}</p>

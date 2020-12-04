@@ -1,9 +1,17 @@
+<!--
+  Componente Body responsável pelo instacias da "Cards" e controle de logica para mudança de estados
+  e controle dos modais
+-->
+
 <template>
   <div class="hello">
-    <div class="topo">{{msg}}</div>
+    <div class="topo"></div>
     <nav v-bind:class="['navbar', darkMode ? 'navbar-dark' : 'navbar-light', darkMode ? 'bg-dark' : '']">
         <div class="mt-lg-0">
           <span class="navbar-brand mb-0 h1" id="titulo">ShortHuggy</span>
+        </div>
+        <div class="my-2 my-lg-0">
+            <span class="navbar-brand mb-0 h3">Public</span><toggle-button @change="changeFilter" v-model="filter"/>
         </div>
         <div class="my-2 my-lg-0">
             <span class="navbar-brand mb-0 h3">Modo Noturno</span><toggle-button @change="changeBack" v-model="darkMode"/>
@@ -12,13 +20,13 @@
     <!--<span class="navbar-brand mb-0 h3">Public</span><toggle-button @change="thisForceUpdate" v-model="filter"/>-->
     <ul id="example-1" v-bind:class="[darkMode ? 'darkBody' : 'whiteBody']">
       <li v-for="atalho in atalhos" :key="atalho.index">
-        <card v-if="canShow(atalho.public)" v-bind:atalho="atalho"></card>
+        <card v-bind:atalho="atalho"></card>
       </li>
     </ul>
     <div id="links-fixos" v-bind:class="[darkMode ? 'darkBody' : 'whiteBody']">
-      <button title="Adicionar Atalho" v-b-modal.meu-modal class="btn btn-primary rounded" id="show-modal" ><font-awesome-icon :icon="['fas', 'plus']" /></button>
+      <button ref="addModalButton" title="Adicionar Atalho" v-b-modal.meu-modal class="btn btn-primary rounded" id="show-modal" ><font-awesome-icon :icon="['fas', 'plus']" /></button>
     </div>
-    <b-modal ref="my-modal" id="meu-modal" hide-footer>
+    <b-modal name="addModal" ref="my-modal" id="meu-modal" hide-footer>
       <template #modal-title>
         <h2>Adicionar Atalho</h2>
       </template>
@@ -54,11 +62,11 @@
             </select>
         </ul>
         <p style="margin-top: 16px">
-          <button type="submit" class="btn btn-primary" v-if="atalhoExiste">Adicionar</button>
+          <button type="submit" class="btn btn-primary">Adicionar</button>
         </p>
       </form>
     </b-modal>
-    <b-modal ref="card-edit" id="card-edit-modal" hide-footer>
+    <b-modal name="editModal" ref="card-edit" id="card-edit-modal" hide-footer>
       <template #modal-title>
         <h2>Editar Atalho</h2>
       </template>
@@ -112,6 +120,8 @@ export default {
   data () {
     return {
       atalhos: [],
+      atalhosFiltered: [],
+      atalhosRaw: [],
       filter: false,
       darkMode: false,
       atalho:{
@@ -132,9 +142,20 @@ export default {
     }
   },
   methods: {
-    atalhoExiste(){
-      console.log("entrou" + atalhos.some(e => e.key == atalho.key))
-      return atalhos.some(e => e.key == atalho.key)
+    changeFilter(){
+      if(this.filter){
+        var temp = this.atalhosRaw
+        var filtrado = []
+        temp.forEach(atalho => {
+          if(atalho.public){
+            filtrado.push(atalho)
+          }
+        });
+        this.atalhos = filtrado
+      }
+      else{
+        this.atalhos = this.atalhosRaw
+      }
     },
     changeBack(){
       var dark = '#222C3C'
@@ -145,14 +166,17 @@ export default {
       this.atalhos = ''
       this.listar()
     },
-    canShow(pub){
-      return this.filter ? pub : true
-    },
     hideModal () {
       this.$refs['my-modal'].hide()
     },
     listar () {
-      atalhos.listar().then(resposta => { this.atalhos = resposta.data })
+      this.atalhos = this.getAtalhos()
+    },
+    getAtalhos(){
+      atalhos.listar().then(resposta => { 
+        this.atalhos = resposta.data
+        this.atalhosRaw = resposta.data 
+      })
     },
     adicionarAtalho () {
       atalhos.adicionar(this.atalho).then(resp => {
@@ -162,7 +186,7 @@ export default {
         this.listar()
       }).catch(error => {
         this.errorMessage = error.message;
-        this.$swal.fire('Houve um erro!' + this.errorMessage)
+        this.$swal.fire({title: 'Houve um erro!', text: error.response.data.reason, icon: 'error'})
         console.error("There was an error!", error);
       });
     
